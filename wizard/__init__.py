@@ -46,7 +46,7 @@ class Wizard(object):
     of the navigation among WizardStep objects
     """
 
-    def __init__(self, base_url_name, steps, navigation_opts=None):
+    def __init__(self, base_url_name, steps, navigation_opts=None, request=None):
         """
         a tuple of tuples of step key names, and step objects must be
         passed into the constructor along with the base url name in the
@@ -54,7 +54,7 @@ class Wizard(object):
         """
         self.steps_callback = steps
         self.do_redirect = False
-        self.steps = None
+        self.steps = steps
         self.steps_tuple = None
         self.base_url_name = base_url_name
         self.url_args = None
@@ -70,6 +70,8 @@ class Wizard(object):
             'wizard_previous': -1,
             'wizard_next': 1,
         }
+
+        self.initialize_steps(request)
 
     @property
     def current_step_object(self):
@@ -117,8 +119,6 @@ class Wizard(object):
         """
         self.request = request
         self._current_step = step
-
-        self.initialize_steps(request)
 
         if not step:
             return self.redirect(self.get_step_key_by_position(0))
