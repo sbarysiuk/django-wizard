@@ -300,6 +300,7 @@ class Wizard(object):
         data['step_key'] = step
         data['step'] = self.get_step_object_by_key(step)
         data['wizard'] = self
+        data['step_number'] = self.get_step_number(step)
         return data
 
     def move_step_direction(self, direction):
